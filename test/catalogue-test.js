@@ -102,4 +102,12 @@ describe("checkReorder", () => {
     addedProduct = cat.findProductById("A128");
     expect(addedProduct).to.not.be.undefined;
   });
+
+  it("should only add products with a non-zero quantity in stock", () => {
+    batch.products.push(new Product("B128", "Product 8", 0, 10, 10.0, 10));
+    const result = cat.batchAddProducts(batch);
+    expect(result).to.equal(2);
+    const rejectedProduct = cat.findProductById("B128");
+    expect(rejectedProduct).to.be.undefined;
+  });
 });
