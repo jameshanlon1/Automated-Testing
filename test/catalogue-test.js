@@ -80,9 +80,26 @@ describe("checkReorder", () => {
     it("should include products just on their reorder level", function () {
       cat.addProduct(new Product("B125", "Product 6", 10, 10, 10.0));
       const result = cat.checkReorders();
-      // TO BE COMPLETED
-    });
+      expect(result.productIds).to.have.members(["B125"]);    });
     it("should handle the empty catalogue case", function () {
-       // TO BE COMPLETED
-     });
+        cat = new Catalogue("Test catalogue");
+        const result = cat.checkReorders();
+        expect(result.productIds).to.be.empty;     });
   });
+
+  describe("batchAddProducts", () => {
+    beforeEach(function () {
+    batch = {
+      type: "Batch",
+      products: [ p127,p128 ],
+    };
+  });
+  it("should add products for a normar request and return the correct no. added", () => {
+    const result = cat.batchAddProducts(batch);
+    expect(result).to.equal(2);
+    let addedProduct = cat.findProductById("A127");
+    expect(addedProduct).to.not.be.undefined;
+    addedProduct = cat.findProductById("A128");
+    expect(addedProduct).to.not.be.undefined;
+  });
+});
