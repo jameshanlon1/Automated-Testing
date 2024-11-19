@@ -28,13 +28,14 @@ export class Catalogue {
 
 checkReorders() {
   const result = { type: "Reorder", productIds: [] };
-  this.products.forEach( (p) => {
+  this.products.forEach((p) => {
     if (p.quantityInStock <= p.reorderLevel) {
       result.productIds.push(p.id);
     }
   });
   return result;
 }
+
 
 batchAddProducts(batch) {
   const productIDClash = batch.products.some(
