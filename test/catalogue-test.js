@@ -110,4 +110,9 @@ describe("checkReorder", () => {
     const rejectedProduct = cat.findProductById("B128");
     expect(rejectedProduct).to.be.undefined;
   });
+
+  it("should throw an exception when batch includes an existing product id", () => {
+    batch.products.push(new Product("A123", "Product 9", 0, 10, 10.0));
+    expect(() => cat.batchAddProducts(batch)).to.throw("Bad Batch");
+  });
 });

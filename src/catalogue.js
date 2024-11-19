@@ -37,11 +37,20 @@ checkReorders() {
 }
 
 batchAddProducts(batch) {
-  const validAdditions = batch.products.filter(
-    (product) => product.quantityInStock > 0
-  )
-  validAdditions.forEach((p) => this.addProduct(p) );
-  return validAdditions.length;
+  const productIDClash = batch.products.some(
+    (product) => this.findProductById(product.id) !== undefined
+  );
+  if (productIDClash) {
+    throw new Error("Bad Batch");
+  }
+  const numProductsAdded = batch.products
+    .filter((product) => product.quantityInStock > 0 )
+    .filter((p) => {
+      this.addProduct(p);
+      return true;
+    })
+    .reduce((acc, p) => acc + 1, 0);
+  return numProductsAdded;
 }
 }
 
